@@ -1,0 +1,16 @@
+name: validatable
+version: 0.1.0
+description: >
+  Validates attributes on an object. Is supposed to be used
+  together with attributable library.
+
+author: Roman Snitko <roman.snitko@gmail.com>
+homepage: http://temple.snitko.ru/component-temple
+documentation: http://temple.snitko.ru/component-temple/doc
+
+dependencies:
+  attributable:
+    path: '../attributable/'
+
+dev_dependencies:
+  unittest: any
