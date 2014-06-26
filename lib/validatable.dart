@@ -1,14 +1,50 @@
 library validatable;
-
 import 'dart:mirrors';
 
+/**
+  Adds validation capabilities for attributes to a class it is mixed in to.
+  It works together with the 'attributable' library and you should first mix Attributable
+  module into the class before mixing in this one. Then define attributes and only after that
+  define validations for them.
+
+  Validations work much the same way as they do in the Ruby On Rails framework. When the `validate()`
+  method is called, it looks at all the attributes mentioned in the `validations` Map in your class
+  and check if they pass the defined validations. If not, errors are added
+  into the `validation_errors` Map.
+  
+  Here's an example of a couple of validations defined on a class:
+
+    class DummyClass extends Object with Attributable, Validatable {
+
+      final List attribute_names = ['some_number', 'some_string'];
+
+      final Map validations = {
+        'num1'  : { 'isNumeric'    : true },
+        'str1'  : { 'isLongerThan' : 5    }
+      };
+      ...
+    }
+
+  IMPORTANT: please don't forget to check with the documentation for the 'attributable'
+  library before using this one.
+  
+  For more information on various validation methods, see README.
+*/
 abstract class Validatable {
 
   bool valid = true;
 
+  /// Stores all the validations. This variable should be redefined by you
+  /// in every class you include the 'Validatable' module into.
   Map validations       = {};
+
+  /// Stores all the validation errors. Is filled automatically after
+  /// the `validate()` method is run.
   Map validation_errors = {};
 
+  /**
+    Runs all the validations against the attributes.
+  */
   validate() {
 
     valid = true;
