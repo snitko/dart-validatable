@@ -5,12 +5,10 @@ description: >
   together with attributable library.
 
 author: Roman Snitko <roman.snitko@gmail.com>
-homepage: http://temple.snitko.ru/component-temple
-documentation: http://temple.snitko.ru/component-temple/doc
 
 dependencies:
   attributable:
     path: '../attributable/'
 
 dev_dependencies:
-  unittest: any
+  test: '>=0.12.0'
