@@ -5,7 +5,8 @@ description: >
   together with attributable library.
 
 author: Roman Snitko <roman.snitko@gmail.com>
-
+homepage: https://github.com/snitko/dart-validatable
+  
 dependencies:
   attributable:
     path: '../attributable/'
