@@ -8,8 +8,7 @@ author: Roman Snitko <roman.snitko@gmail.com>
 homepage: https://github.com/snitko/dart-validatable
   
 dependencies:
-  attributable:
-    path: '../attributable/'
+  attributable: '>=0.1.0 <0.2.0'
 
 dev_dependencies:
   test: '>=0.12.0'
