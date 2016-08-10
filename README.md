@@ -86,6 +86,19 @@ this validation like this:
     'email' : { 'matches' : new RegExp(r"@") }
 
 
+Custom validation functions
+---------------------------
+
+You can define a custom validation function to check whatever conditions you desire:
+
+    final Map validations = {
+      'email' : { 'function' : { 'name': 'validateEmail', 'message': "doesn't look like an email" }}
+    };
+
+    prvt_validateEmail() => this.email.contains("@");
+
+If the function returns false, it means the validation didn't pass and an error message is added.
+
 List of available validations and their descriptions
 ----------------------------------------------------
 

@@ -61,7 +61,14 @@ abstract class Validatable {
         try {
           if(!(v_arg is Map))
             v_arg = { 'value': v_arg, 'message': null };
-          reflect(this).invoke(new Symbol('prvt_validate_${v_name}'), [field_name, v_arg]);
+
+          // Custom validation function!
+          if(v_name == 'function') {
+            if(!(reflect(this).invoke(new Symbol('prvt_${v_arg['name']}'), []).reflectee))
+              validation_errors[field_name].add(_getValidationErrorMessage("wrong value in $v_name", v_arg));
+          // Existing validation method.
+          } else
+            reflect(this).invoke(new Symbol('prvt_validate_${v_name}'), [field_name, v_arg]);
         } on NoSuchMethodError catch(e) {
           var error_message = e.toString();
           if(error_message.contains("has no instance method 'prvt_validate_"))
