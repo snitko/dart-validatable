@@ -98,6 +98,20 @@ You can define a custom validation function to check whatever conditions you des
     prvt_validateEmail() => this.email.contains("@");
 
 If the function returns false, it means the validation didn't pass and an error message is added.
+You can also pass a custom object on which the function will be called. This is useful when
+you want to have your validation function in a separate object:
+
+    class MyValidator {
+      validateEmail() => this.email.contains("@");
+    }
+
+    var obj = new MyVlaidator();
+
+    ...
+
+    final Map validations = {
+      'email' : { "object": obj, 'function' : { 'name': 'validateEmail', 'message': "doesn't look like an email" }}
+    };
 
 List of available validations and their descriptions
 ----------------------------------------------------

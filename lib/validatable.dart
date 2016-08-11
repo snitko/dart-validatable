@@ -50,21 +50,34 @@ abstract class Validatable {
     valid = true;
 
     // remove previous validation errors
-    validation_errors = {};    
+    validation_errors = {};
 
     validations.forEach((field_name, field_validations) {
 
       if(validation_errors[field_name] == null)
         validation_errors[field_name] = [];
 
+      // We can pass a custom object in which the validation
+      // function is called. Otherwise, it's called on the
+      // the current object.
+      var validator;
+      if(field_validations.containsKey("object"))
+        validator = field_validations["object"];
+      else
+        validator = this;
+
       field_validations.forEach((v_name, v_arg) {
+        
+        // not a validation, here, ignore!
+        if(v_name == "object") return;
+
         try {
           if(!(v_arg is Map))
             v_arg = { 'value': v_arg, 'message': null };
 
           // Custom validation function!
           if(v_name == 'function') {
-            if(!(reflect(this).invoke(new Symbol('prvt_${v_arg['name']}'), []).reflectee))
+            if(!(reflect(validator).invoke(new Symbol('prvt_${v_arg['name']}'), []).reflectee))
               validation_errors[field_name].add(_getValidationErrorMessage("wrong value in $v_name", v_arg));
           // Existing validation method.
           } else

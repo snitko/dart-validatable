@@ -3,9 +3,13 @@ import 'dart:mirrors';
 import '../lib/validatable.dart';
 import "package:test/test.dart";
 
+class MyValidator {
+  bool prvt_validateCustomStuff2() => false;
+}
+
 class DummyClass extends Object with Attributable, Validatable {
 
-  final List attribute_names = ['num1', 'num2', 'num3', 'enum1', 'enum2', 'null1', 'str1', 'str2', 'str3', 'str4', 'not_null1', 'not_empty1', 'custom_message1', 'custom_function_attr'];
+  final List attribute_names = ['num1', 'num2', 'num3', 'enum1', 'enum2', 'null1', 'str1', 'str2', 'str3', 'str4', 'not_null1', 'not_empty1', 'custom_message1', 'custom_function_attr', "custom_function_attr2"];
 
   final Map validations = {
 
@@ -24,8 +28,9 @@ class DummyClass extends Object with Attributable, Validatable {
     'not_null1'  : { 'isNotNull'  : true },
     'not_empty1' : { 'isNotEmpty' : true },
 
-    'custom_message1'      : { 'isNotEmpty' : { 'value': true, 'message': "CUSTOM MESSAGE" } },
-    'custom_function_attr' : { 'function'   : { 'name': 'validateCustomStuff', 'message': "FUNCTION RETURNED FALSE" }}
+    'custom_message1'      :  { 'isNotEmpty' : { 'value': true, 'message': "CUSTOM MESSAGE" } },
+    'custom_function_attr' :  { 'function'   : { 'name': 'validateCustomStuff', 'message': "FUNCTION RETURNED FALSE" }},
+    'custom_function_attr2' : { 'object': new MyValidator(), 'function' : { 'name': 'validateCustomStuff2', 'message': "FUNCTION RETURNED FALSE" }}
 
   };
 
@@ -165,6 +170,12 @@ main() {
     dummy_class.custom_function_attr = "error";
     dummy_class.validate();
     expect(dummy_class.validation_errors['custom_function_attr'].first, equals('FUNCTION RETURNED FALSE'));
+  });
+
+  test("accepts object on which to call the passed function", () {
+    dummy_class.custom_function_attr = "error";
+    dummy_class.validate();
+    expect(dummy_class.validation_errors['custom_function_attr2'].first, equals('FUNCTION RETURNED FALSE'));
   });
   
   
